@@ -1,0 +1,18 @@
+Game concept
+
+Je jeux tire ses règles, ses mécaniques et son gameplay de plusieurs jeux de carte déjà présent de sur la scène du jeu vidéo. Pour être plus précis, on part sur le gameplay du jeu de « Gwent » venant de « The Witcher ».
+Le jeu que nous voulons développer est un 1v1 / PvP / en tour par tours. Le but du jeu est de combiné la force et les effets de vos cartes pour construire une armée supérieure à celle de votre adversaire. Chaque joueur dispose de point de vie. Et la partie se fini si l’un des joueur à réussi à enlevé tous les points de vie de l’adversaire.
+
+
+
+
+
+
+Déroulé d’une partie :
+    -	Un tirage aléatoire décide qui commence dans la partie J1 ou J2. Note : la personne qui commence lors des manches alterne
+    -	Tirage des cartes de la main de base :
+        o	Le joueur tire aléatoirement 10 cartes de son deck. Il peut soit les garder, soit retirer les cartes qu’il ne compte pas garder.
+    -	Phase de jeu :
+        o	Le joueur peut poser ses cartes pour construire son armé. Pour passer le tour le joueur laisse manuellement la main à l’adversaire.
+        o	Les cartes ont 5 possibilités de placement :
+
