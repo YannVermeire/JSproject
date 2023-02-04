@@ -1,9 +1,7 @@
 var server = require('express')();
-server.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+var cors = require('cors');
+server.use(cors());
+
 var http = require('http').createServer(server);
 const io = require('socket.io')(http);
 
@@ -15,6 +13,11 @@ io.on('connection', function (socket) {
     });
 });
 
+server.get("/socket.io/?EIO=4&transport=polling&t=OOUIarb", cors(), function (req, res, next) {
+    res.json({msg: 'This is CORS-enabled for a Single Route'})
+    console.log('poupou')
+  })
+  
 http.listen(3000, function () {
     console.log('Server started!');
 });
