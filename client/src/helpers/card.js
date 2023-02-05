@@ -1,3 +1,4 @@
+
 export default class Card {
     constructor(scene) {
         this.render = (x, y, sprite) => {

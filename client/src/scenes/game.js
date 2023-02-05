@@ -13,19 +13,36 @@ export default class Game extends Phaser.Scene {
         this.load.image('Background','src/assets/background game.png')
         this.load.image('WoodCardBack', 'src/assets/WoodCardBack.png');
         this.load.image('WoodCardFront', 'src/assets/WoodCardFront.png');
+        this.load.image('Deck','src/assets/Deck of card.png');
+        this.load.image('Hero','src/assets/SwordMaster_right.png');
+        this.load.image('Enemy_1','src/assets/Savage_left.png');
 
     }
 
     create() {
 
+        //Background image
         this.add.image(640,390,'Background');
-        
+        //Zone drop de carte
+        this.zoneDrop = new Zone(this,1200,500,640,300);
+        this.dropZone = this.zoneDrop.renderZone();
+        //this.outline1 = this.zoneDrop.renderOutline(this.dropZone);
+        //Zone Main de carte
+        this.zoneHand = new Zone(this,900,180,640,660);
+        this.handZone = this.zoneHand.renderZone();
+        //this.outline2 = this.zoneHand.renderOutline(this.handZone);
+        //Spawn Hero
+        let MainHero = new Hero(this,150,30,25);
+        MainHero.render(150,430,'Hero');
+        MainHero.renderHB();
+
 
         
-        this.dealText = this.add.text(75, 350, ['DEAL CARDS']).setFontSize(18).setFontFamily('Trebuchet MS').setColor('#00ffff').setInteractive();
-        this.zone = new Zone(this,1200,500,640,300);
-        this.dropZone = this.zone.renderZone();
-        this.outline = this.zone.renderOutline(this.dropZone);
+        //this.dealText = this.add.text(75, 350, ['DEAL CARDS']).setFontSize(18).setFontFamily('Trebuchet MS').setColor('#00ffff').setInteractive();
+        
+        
+
+
         let self = this;
         this.dealCards = () => {
             for (let i = 0; i < 5; i++) {
