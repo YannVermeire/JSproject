@@ -1,13 +1,21 @@
 import Phaser from "phaser";
 import Game from "./scenes/game";
-
+import Main from "./scenes/main";
+import Character from "./scenes/character";
+import Deck from "./scenes/deck";
+import Stuff from "./scenes/stuff"
 const config = {
     type: Phaser.AUTO,
     parent: "phaser-example",
-    width: 1280,
-    height: 780,
+    scale: {
+        mode: Phaser.Scale.FIT,
+        parent: 'phaser-example',
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 1280,
+        height: 780,
+    },
     scene: [
-        Game
+        Main, Game, Character,Deck, Stuff
     ]
 };
 
