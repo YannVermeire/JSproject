@@ -9,10 +9,9 @@ export default class Game extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('cyanCardFront', 'src/assets/CyanCardFront.png');
-        this.load.image('cyanCardBack', 'src/assets/CyanCardBack.png');
-        this.load.image('magentaCardFront', 'src/assets/MagentaCardFront.png');
-        this.load.image('magentaCardBack', 'src/assets/MagentaCardBack.png');
+        this.load.image('WoodCardBack', 'src/assets/WoodCardBack.png');
+        this.load.image('WoodCardFront', 'src/assets/WoodCardFront.png');
+
     }
 
     create() {
@@ -25,7 +24,7 @@ export default class Game extends Phaser.Scene {
         this.dealCards = () => {
             for (let i = 0; i < 5; i++) {
                 let playerCard = new Card(this);
-                playerCard.render(475 + (i * 100), 650, 'cyanCardFront');
+                playerCard.render(475 + (i * 100), 650, 'WoodCardFront');
             }
         }
 
