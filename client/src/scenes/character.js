@@ -31,5 +31,10 @@ export default class Character extends Phaser.Scene{
             console.log('going to stuff')
             self.scene.start('Stuff')
         })
+
+        this.game=this.add.text(640, 365, ['Game']).setFontSize(18).setFontFamily('Trebuchet MS').setColor('#00ffff').setInteractive();
+        this.game.on('pointerdown',()=>{
+            self.scene.start('Game');
+        })
     }
 }
