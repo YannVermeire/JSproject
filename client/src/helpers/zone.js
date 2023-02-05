@@ -1,14 +1,14 @@
 export default class Zone {
-    constructor(scene) {
+    constructor(scene,x,y,width,height) {
         this.renderZone = () => {
-            let dropZone = scene.add.zone(700, 375, 900, 250).setRectangleDropZone(900, 250);
-            dropZone.setData({ cards: 0 });
-            return dropZone;
+            let interativeZone = scene.add.zone(x, y, width, height).setInteractive();
+            interativeZone.setData({ cards: 0 });
+            return interativeZone;
         };
-        this.renderOutline = (dropZone) => {
-            let dropZoneOutline = scene.add.graphics();
-            dropZoneOutline.lineStyle(4, 0xff69b4);
-            dropZoneOutline.strokeRect(dropZone.x - dropZone.input.hitArea.width / 2, dropZone.y - dropZone.input.hitArea.height / 2, dropZone.input.hitArea.width, dropZone.input.hitArea.height)
+        this.renderOutline = (interativeZone) => {
+            let interativeZoneOutline = scene.add.graphics();
+            interativeZoneOutline.lineStyle(4, 0xff69b4);
+            interativeZoneOutline.strokeRect(interativeZone.x - interativeZone.input.hitArea.width / 2, interativeZone.y - interativeZone.input.hitArea.height / 2, interativeZone.input.hitArea.width, interativeZone.input.hitArea.height)
         }
     }
 }
