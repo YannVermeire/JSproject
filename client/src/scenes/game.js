@@ -1,5 +1,6 @@
 import Card from '../helpers/card';
 import Zone from '../helpers/zone';
+import Hero from '../helpers/hero';
 
 export default class Game extends Phaser.Scene {
     constructor() {
@@ -9,6 +10,7 @@ export default class Game extends Phaser.Scene {
     }
 
     preload() {
+        this.load.image('Background','src/assets/background game.png')
         this.load.image('WoodCardBack', 'src/assets/WoodCardBack.png');
         this.load.image('WoodCardFront', 'src/assets/WoodCardFront.png');
 
@@ -16,8 +18,12 @@ export default class Game extends Phaser.Scene {
 
     create() {
 
+        this.add.image(640,390,'Background');
+        
+
+        
         this.dealText = this.add.text(75, 350, ['DEAL CARDS']).setFontSize(18).setFontFamily('Trebuchet MS').setColor('#00ffff').setInteractive();
-        this.zone = new Zone(this);
+        this.zone = new Zone(this,1200,500,640,300);
         this.dropZone = this.zone.renderZone();
         this.outline = this.zone.renderOutline(this.dropZone);
         let self = this;
