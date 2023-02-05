@@ -17,14 +17,14 @@ export default class Character extends Phaser.Scene{
         let self=this
         this.add.image(640, 365, 'character').setScale(0.3, 0.3).setInteractive();
 
-        this.deckZone=new Zone(this,150,300,200,500)
+        this.deckZone=new Zone(this,200,500,150,300)
         this.interactiveDeckZone=self.deckZone.renderZone()
         this.showDeckZone=self.deckZone.renderOutline(this.interactiveDeckZone)
         this.interactiveDeckZone.on('pointerdown',()=>{
             self.scene.start('Deck','toto')
         })
 
-        this.stuffZone=new Zone(this,1130,300,200,500)
+        this.stuffZone=new Zone(this,200,500,1130,300)
         this.interactiveStuffZone=self.stuffZone.renderZone()
         this.showStuffZone=self.stuffZone.renderOutline(this.interactiveStuffZone)
         this.interactiveStuffZone.on('pointerdown',()=>{

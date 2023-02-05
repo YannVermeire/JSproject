@@ -7,7 +7,10 @@ export default class Main extends Phaser.Scene {
         });
     }
     preload(){
-
+        if(localStorage.getItem('default')===null)
+        {
+            localStorage.setItem('default',true);
+        }
     }
     create(){
         let self=this;
