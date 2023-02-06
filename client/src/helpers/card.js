@@ -1,9 +1,11 @@
-
-export default class Card {
-    constructor(scene,ID) {
+export default class Card{
+    constructor(scene,ID,loc) {
+      //sert a identifier la localisation de la carte (deck ou banque)
+        this.location=loc;
         let sprite='WoodCardFront';
-        this.ID_ = ID;
-        switch(this.ID_) {
+        this.identifier = ID;
+        let self=this;
+        switch(this.identifier) {
             case 1:
                 sprite=('WoodCardFront');
               break;
@@ -16,10 +18,9 @@ export default class Card {
         this.render = (x, y) => {
             let card = scene.add.image(x, y, sprite).setScale(1, 1).setInteractive();
             scene.input.setDraggable(card);
+            //sert a lier la carte et son render
+            card.setData({'owner':self})
             return card;
-        }
-        this.getID=()=>{
-          return this.ID_;
         }
     }
 }

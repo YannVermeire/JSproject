@@ -1,5 +1,6 @@
 import Zone from "../helpers/zone";
 export default class Character extends Phaser.Scene{
+    
     constructor(test) {
         super({
             key: 'Character'
@@ -7,7 +8,7 @@ export default class Character extends Phaser.Scene{
     }
     init(data)
     {
-        console.log(data);
+        
     }
     preload() {
         this.load.image('character','src/assets/SwordMaster_right.png')
@@ -21,7 +22,7 @@ export default class Character extends Phaser.Scene{
         this.interactiveDeckZone=self.deckZone.renderZone()
         this.showDeckZone=self.deckZone.renderOutline(this.interactiveDeckZone)
         this.interactiveDeckZone.on('pointerdown',()=>{
-            self.scene.start('Deck')
+            self.scene.start('Deck','')
         })
 
         this.stuffZone=new Zone(this,200,500,1130,300)
