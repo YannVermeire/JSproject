@@ -26,6 +26,7 @@ export default class Deck extends Phaser.Scene{
         this.showBankZone=self.bankZone.renderOutline(this.interactiveBankZone)
 
         this.fillBank = () =>{
+            //si le joueur ne s'est jamais connecté, fournir un deck de base
             if(localStorage.getItem('default')==='true')
             {
                 console.log('filling default');
@@ -38,18 +39,20 @@ export default class Deck extends Phaser.Scene{
                 {
                     self.cardBank.push(new Card(this,1));
                 }
-                localStorage.setItem('cardBank',self.cardBank);
+                localStorage.setItem('cardBank',JSON.stringify({cardBank:self.cardBank}));
             }
+            //sinon rechercher sa liste de carte dans le storage et remplir la liste de cartes
             else
             {
-                for(let each_card in self.cardBank)
+                let localBank=JSON.parse(localStorage.getItem('cardBank')).cardBank;
+                for(let key in localBank)
                 {
-                    
+                    self.cardBank.push(new Card(self,localBank[key].ID_))
                 }
             }
+            //NB : il faut remplacer le localStorage par une vraie BDD avec credentials, mais pour l"intant on fait avec
         }
         self.fillBank();
-        console.log(self.cardBank);
 
         this.back.on('pointerdown',()=>{
             self.scene.start('Character','dataDeck');

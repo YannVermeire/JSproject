@@ -2,8 +2,8 @@
 export default class Card {
     constructor(scene,ID) {
         let sprite='WoodCardFront';
-        let ID_ = ID;
-        switch(ID_) {
+        this.ID_ = ID;
+        switch(this.ID_) {
             case 1:
                 sprite=('WoodCardFront');
               break;
@@ -17,6 +17,9 @@ export default class Card {
             let card = scene.add.image(x, y, sprite).setScale(1, 1).setInteractive();
             scene.input.setDraggable(card);
             return card;
+        }
+        this.getID=()=>{
+          return this.ID_;
         }
     }
 }
