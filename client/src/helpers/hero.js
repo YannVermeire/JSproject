@@ -8,16 +8,26 @@ export default class Hero {
         var Attack;
         var X;
         var Y;
+        var HB
         this.render = (x,y,sprite) => {
             X = x;
             Y = y;
             let hero = scene.add.image(x,y,sprite).setScale(1,1);
+            HB = new HealthBar(scene,X-60,Y+95,Health); 
             return hero;
         }
-
-        this.renderHB = () => {
-            let HB = new HealthBar(scene,X-60,Y+95,Health); 
-            return HB;
+        this.TakeDamage = (Damage) => {
+            if (Damage-Defense>0)
+            {
+                let DamageReceive = (Damage - Defense);
+                Health -= DamageReceive;
+                Defense = 0;
+                HB.decrease(DamageReceive);
+                return DamageReceive;
+            }
+        }
+        this.GetDamage = () => {
+            return Attack;
         }
 
     }

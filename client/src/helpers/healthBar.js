@@ -7,10 +7,9 @@ export default class HealthBar {
         this.x = x;
         this.y = y;
         this.value = value;
-        this.p = 76 / 100;
+        this.maxLife =value;
 
         this.draw();
-
         scene.add.existing(this.bar);
     }
 
@@ -41,18 +40,10 @@ export default class HealthBar {
         this.bar.fillStyle(0xffffff);
         this.bar.fillRect(this.x + 2, this.y + 2, 116, 20);
 
-        if (this.value < 30)
-        {
-            this.bar.fillStyle(0xff0000);
-        }
-        else
-        {
-            this.bar.fillStyle(0x00ff00);
-        }
-
-        var d = Math.floor(this.p * this.value);
-
-        this.bar.fillRect(this.x + 2, this.y + 2, d, 20);
+        this.bar.fillStyle(0x00ff00);
+        var coeff = Math.floor((this.value/this.maxLife) );
+        this.bar.fillRect(this.x + 2, this.y + 2, 116 * coeff, 20);
+        
     }
 
 }

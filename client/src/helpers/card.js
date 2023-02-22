@@ -16,7 +16,7 @@ export default class Card{
                 sprite=('WoodCardFront');
           }
         this.render = (x, y) => {
-            let card = scene.add.image(x, y, sprite).setScale(1, 1).setInteractive();
+            let card = scene.add.image(x, y, sprite).setScale(1.5, 1.5).setInteractive();
             scene.input.setDraggable(card);
             //sert a lier la carte et son render
             card.setData({'owner':self})
