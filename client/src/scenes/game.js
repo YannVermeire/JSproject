@@ -2,18 +2,19 @@ import Card from '../helpers/card';
 import Zone from '../helpers/zone';
 import Hero from '../helpers/hero';
 import Enemy from '../helpers/enemy';
+import HealthBar from '../helpers/HealthBar';
 
-var MainHero;
-var Enemy1;
-var Enemy2;
-var Action = 0;
+
 
 export default class Game extends Phaser.Scene {
     constructor() {
-
         super({
             key: 'Game'
         });
+        this.MainHero = new Hero(this,150,30,25);
+        this.Enemy1 = new Enemy(this,100,10,5);
+        this.Enemy2 = new Enemy(this,100,10,5);
+        this.Action = 0;
     }
 
     preload() {
@@ -39,13 +40,10 @@ export default class Game extends Phaser.Scene {
         this.handZone = this.zoneHand.renderZone();
         this.outline2 = this.zoneHand.renderOutline(this.handZone);
         //Spawn Hero
-        MainHero = new Hero(this,150,30,25);
-        MainHero.render(150,430,'Hero');
-        //Spawn enemies
-        Enemy1 = new Enemy(this,100,10,5);
-        Enemy1.render(1130,430,'Enemy_1'); 
-        Enemy2 = new Enemy(this,100,10,5);
-        Enemy2.render(950,430,'Enemy_1');
+        this.MainHero.render(150,430,'Hero');
+        //Spawn enemies  
+        this.Enemy1.render(1130,430,'Enemy_1'); 
+        this.Enemy2.render(950,430,'Enemy_1');
         
         
 
@@ -92,7 +90,8 @@ export default class Game extends Phaser.Scene {
             dropZone.data.values.cards++;
             gameObject.x = (dropZone.x - 350) + (dropZone.data.values.cards * 50);
             gameObject.y = dropZone.y;
-            Action = 1;
+            this.Action = 1;
+            console.log('Bonjour je fais l\'action 1');
             gameObject.disableInteractive();
         })
 
@@ -102,6 +101,11 @@ export default class Game extends Phaser.Scene {
     }
     
     update() {
-        
+        if (this.Action == 1)
+        {
+            this.Enemy1.TakeDamage(this.MainHero.GetDamage());
+            this.Action = 0;
+            console.log('Bonjour je fais l\'action 2');
+        }
     }
 }
