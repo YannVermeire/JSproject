@@ -4,6 +4,8 @@ import Main from "./scenes/main";
 import Character from "./scenes/character";
 import Deck from "./scenes/deck";
 import Stuff from "./scenes/stuff"
+import AccountCreation from "./scenes/accountCreation";
+
 const config = {
     type: Phaser.AUTO,
     parent: "phaser-example",
@@ -15,8 +17,11 @@ const config = {
         height: 780,
     },
     scene: [
-        Main, Game, Character,Deck, Stuff
-    ]
+        Main, Game, Character,Deck, Stuff, AccountCreation
+    ],
+    dom: {
+        createContainer: true
+    },
 };
 
 const game = new Phaser.Game(config)
