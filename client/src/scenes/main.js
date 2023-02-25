@@ -16,7 +16,7 @@ export default class Main extends Phaser.Scene {
     create(){
         let self=this;
         this.connect=this.add.text(640,370,'Connect',{fontSize : '18px', fontFamily : 'Trebuchet MS', color : '#00ffff'}).setInteractive().setOrigin(0.5,0.5)
-        this.createAccount=this.add.text(640,400,'Create Account',{fontSize : '18px', fontFamily : 'Trebuchet MS', color : '#00ffff'}).setInteractive().setOrigin(0.5,0.5)
+        this.createAccount=this.add.text(640,400,'Create an account',{fontSize : '18px', fontFamily : 'Trebuchet MS', color : '#00ffff'}).setInteractive().setOrigin(0.5,0.5)
         var usernameInput = new InputText(this, 640, 310, 150, 30, {placeholder : 'username',fontSize : '18px',align:'center' })
         var passwordInput = new InputText(this, 640 , 340, 150, 30, {placeholder : 'password', type : 'password',fontSize : '18px' ,align:'center'})
         this.add.existing(passwordInput)
