@@ -17,9 +17,9 @@ export default class AccountCreation extends Phaser.Scene {
         this.add.existing(usernameInput)
         this.add.existing(passwordInputDuplicate)
 
-        this.createAccount=this.add.text(640 , 400,'create account',{fontSize : '18px', fontFamily : 'Trebuchet MS', color : '#00ffff'}).setInteractive().setOrigin(0.5,0.5)
+        this.createAccount=this.add.text(640 , 400,'Create account',{fontSize : '18px', fontFamily : 'Trebuchet MS', color : '#00ffff'}).setInteractive().setOrigin(0.5,0.5)
         this.RegexMatchText=this.add.text(640 , 280,'Username is alphanumerics, between 5 and 15 characters',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0.5,0.5)
-        this.passwordMatchText=this.add.text(800 , 370,'passwords don\'t match',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0,0.5)
+        this.passwordMatchText=this.add.text(800 , 370,'Passwords don\'t match',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0,0.5)
         this.passwordRegexMatchText=this.add.text(800 , 340,'At least 6 characters',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0,0.5)
         this.RegexMatchText.setVisible(false)
         this.passwordMatchText.setVisible(false)
@@ -48,7 +48,7 @@ export default class AccountCreation extends Phaser.Scene {
                     else
                     {
                         //inscrire en bdd
-                        fetch("https://localhost:3000", {
+                        fetch("http://localhost:3000", {
                                 method: "POST",
                                 body: JSON.stringify({
                                     username: usernameInput.text,
@@ -56,10 +56,13 @@ export default class AccountCreation extends Phaser.Scene {
                                     }),
                                 headers: {
                                     "Content-type": "application/json; charset=UTF-8",
-                                    "Access-Control-Allow-Origin": "*"
                                 }
                                 }
-                            );
+                            ).then((response)=>{
+                                console.log(response)
+                            }).catch((error)=>{
+                                console.log("error : "+error.message)
+                            });
                     }
                 }
             }
