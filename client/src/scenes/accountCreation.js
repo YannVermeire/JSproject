@@ -10,40 +10,45 @@ export default class AccountCreation extends Phaser.Scene {
     {}
     create(){
         let self=this
+        
         var usernameInput = new InputText(self, 640, 310, 180, 30, {placeholder : 'username',fontSize : '18px',align:'center' })
         var passwordInput = new InputText(self, 640 , 340, 180, 30, {placeholder : 'password', type : 'password',fontSize : '18px' ,align:'center'})
         var passwordInputDuplicate = new InputText(self, 640 , 370, 180, 30, {placeholder : 'password validation', type : 'password',fontSize : '18px' ,align:'center'})
+       
         this.add.existing(passwordInput)
         this.add.existing(usernameInput)
         this.add.existing(passwordInputDuplicate)
 
         this.createAccount=this.add.text(640 , 400,'Create account',{fontSize : '18px', fontFamily : 'Trebuchet MS', color : '#00ffff'}).setInteractive().setOrigin(0.5,0.5)
-        this.RegexMatchText=this.add.text(640 , 280,'Username is alphanumerics, between 5 and 15 characters',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0.5,0.5)
-        this.passwordMatchText=this.add.text(800 , 370,'Passwords don\'t match',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0,0.5)
+        this.regexMatchText=this.add.text(640 , 280,'Username is alphanumerics, between 5 and 15 characters',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0.5,0.5)
         this.passwordRegexMatchText=this.add.text(800 , 340,'At least 6 characters',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0,0.5)
-        this.RegexMatchText.setVisible(false)
+        this.passwordMatchText=this.add.text(800 , 370,'Passwords don\'t match',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0,0.5)
+        this.dataBaseError=this.add.text(640 , 430,'',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0.5,0.5)
+        
+        this.regexMatchText.setVisible(false)
         this.passwordMatchText.setVisible(false)
         this.passwordRegexMatchText.setVisible(false)
 
         self.createAccount.on('pointerdown',()=>{
-            this.RegexMatchText.setVisible(false)
-            this.passwordMatchText.setVisible(false)
-            this.passwordRegexMatchText.setVisible(false)
+            self.regexMatchText.setVisible(false)
+            self.passwordMatchText.setVisible(false)
+            self.passwordRegexMatchText.setVisible(false)
+            self.dataBaseError.setVisible(false) 
             if(usernameInput.text.search(/([a-z]|[A-Z]|[0-9]){5,15}/)===-1)
             {
-                this.RegexMatchText.setVisible(true)
+                self.regexMatchText.setVisible(true)
             }
             else
             { 
                 if(passwordInput.text.search(/([a-z]|[A-Z]|[0-9]){6,}/)===-1)
                 {
-                    this.passwordRegexMatchText.setVisible(true)
+                    self.passwordRegexMatchText.setVisible(true)
                 }
                 else
                 {
                     if(passwordInput.text!==passwordInputDuplicate.text)
                     {
-                        this.passwordMatchText.setVisible(true)
+                        self.passwordMatchText.setVisible(true)
                     }
                     else
                     {
@@ -56,7 +61,30 @@ export default class AccountCreation extends Phaser.Scene {
                                 body: JSON.stringify({username: usernameInput.text, password: passwordInput.text})
                                 }
                             ).then(response=>response.json())
-                            .then(data=>{ console.log(data); })
+                            .then(data=>{
+                                self.regexMatchText.setVisible(false)
+                                self.passwordMatchText.setVisible(false)
+                                self.passwordRegexMatchText.setVisible(false)
+                                self.dataBaseError.setVisible(false) 
+                                if(data.openError!=="" || data.runError!=="" || data.finalizeError!=="")
+                                {
+                                    switch(data.runError){
+                                        case 19 :
+                                            self.dataBaseError.setText('Username already exists')
+                                            break;
+                                        default :
+                                            self.dataBaseError.setText('Database Error')
+                                            break;
+                                    } 
+                                    self.dataBaseError.setColor('#cf5e61')
+                                }
+                                else
+                                {
+                                    self.dataBaseError.setText('Account created')
+                                    self.dataBaseError.setColor('#329932')
+                                }
+                                self.dataBaseError.setVisible(true)
+                            })
                             .catch((error)=>{
                                 console.log("error : "+error.message)
                             });
