@@ -48,19 +48,16 @@ export default class AccountCreation extends Phaser.Scene {
                     else
                     {
                         //inscrire en bdd
-                        fetch("http://localhost:3000", {
+                            fetch("http://localhost:3000/addUser", {
                                 method: "POST",
-                                body: JSON.stringify({
-                                    username: usernameInput.text,
-                                    password: passwordInput.text
-                                    }),
                                 headers: {
-                                    "Content-type": "application/json; charset=UTF-8",
+                                    'Content-Type': 'application/json'
+                                  },
+                                body: JSON.stringify({username: usernameInput.text, password: passwordInput.text})
                                 }
-                                }
-                            ).then((response)=>{
-                                console.log(response)
-                            }).catch((error)=>{
+                            ).then(response=>response.json())
+                            .then(data=>{ console.log(data); })
+                            .catch((error)=>{
                                 console.log("error : "+error.message)
                             });
                     }

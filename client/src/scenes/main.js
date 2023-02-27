@@ -22,6 +22,9 @@ export default class Main extends Phaser.Scene {
         this.add.existing(passwordInput)
         this.add.existing(usernameInput)
 
+        this.credentialsText=this.add.text(640 , 280,'Enter credentials',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0.5,0.5)
+        this.credentialsText.setVisible(false)
+
         self.connect.on('pointerover', ()=>{
             self.connect.setColor('#ff69b4');
         })
@@ -30,14 +33,26 @@ export default class Main extends Phaser.Scene {
             self.connect.setColor('#00ffff');
         })
         self.connect.on('pointerdown', ()=>{
+            this.credentialsText.setVisible(false)
             if(usernameInput.text==='' || passwordInput.text==='')
             {
-                console.log('wrong auth');
+                this.credentialsText.setVisible(true)
             }
             else
             {
-                //recherche en bdd de l'utilisateur
-                this.scene.start('Character');
+                fetch("http://localhost:3000/connectAsUser", {
+                                method: "POST",
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                  },
+                                body: JSON.stringify({username: usernameInput.text, password: passwordInput.text})
+                                }
+                            ).then(response=>response.json())
+                            .then(data=>{ console.log(data); })
+                            .catch((error)=>{
+                                console.log("error : "+error.message)
+                            });
+                //this.scene.start('Character');
             }
 
         })
