@@ -23,6 +23,8 @@ export default class Main extends Phaser.Scene {
         this.add.existing(usernameInput)
 
         this.credentialsText=this.add.text(640 , 280,'Enter credentials',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0.5,0.5)
+        this.authenticationText=this.add.text(640 , 280,'Wrong credentials',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0.5,0.5)
+        this.authenticationText.setVisible(false)
         this.credentialsText.setVisible(false)
 
         self.connect.on('pointerover', ()=>{
@@ -34,6 +36,7 @@ export default class Main extends Phaser.Scene {
         })
         self.connect.on('pointerdown', ()=>{
             this.credentialsText.setVisible(false)
+            this.authenticationText.setVisible(false)
             if(usernameInput.text==='' || passwordInput.text==='')
             {
                 this.credentialsText.setVisible(true)
@@ -48,7 +51,13 @@ export default class Main extends Phaser.Scene {
                                 body: JSON.stringify({username: usernameInput.text, password: passwordInput.text})
                                 }
                             ).then(response=>response.json())
-                            .then(data=>{ console.log(data); })
+                            .then(data=>{ 
+                                console.log(data);
+                                if (data.row===null)
+                                {
+                                    this.authenticationText.setVisible(true)
+                                }
+                            })
                             .catch((error)=>{
                                 console.log("error : "+error.message)
                             });

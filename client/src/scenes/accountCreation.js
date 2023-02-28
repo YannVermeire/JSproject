@@ -62,10 +62,6 @@ export default class AccountCreation extends Phaser.Scene {
                                 }
                             ).then(response=>response.json())
                             .then(data=>{
-                                self.regexMatchText.setVisible(false)
-                                self.passwordMatchText.setVisible(false)
-                                self.passwordRegexMatchText.setVisible(false)
-                                self.dataBaseError.setVisible(false) 
                                 if(data.openError!=="" || data.runError!=="" || data.finalizeError!=="")
                                 {
                                     switch(data.runError){
