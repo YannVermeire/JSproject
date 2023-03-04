@@ -1,5 +1,5 @@
 export default class Card{
-    constructor(scene,ID,loc) {
+    constructor(scene,ID,loc,) {
       //sert a identifier la localisation de la carte (deck ou banque)
         this.location=loc;
         let sprite='WoodCardFront';
@@ -21,6 +21,10 @@ export default class Card{
             //sert a lier la carte et son render
             card.setData({'owner':self})
             return card;
+        }
+
+        this.getID = () => {
+          return this.identifier;
         }
     }
 }

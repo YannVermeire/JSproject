@@ -11,9 +11,9 @@ export default class Game extends Phaser.Scene {
         super({
             key: 'Game'
         });
-        this.MainHero = new Hero(this,150,30,25);
-        this.Enemy1 = new Enemy(this,100,10,5);
-        this.Enemy2 = new Enemy(this,100,10,5);
+        this.MainHero = new Hero(this,150,30,10);
+        this.Enemy1 = new Enemy(this,100,15,5);
+        this.Enemy2 = new Enemy(this,100,15,5);
         this.Action = 0;
     }
 
@@ -90,10 +90,35 @@ export default class Game extends Phaser.Scene {
             dropZone.data.values.cards++;
             gameObject.x = (dropZone.x - 350) + (dropZone.data.values.cards * 50);
             gameObject.y = dropZone.y;
-            this.Action = 1;
-            console.log('Bonjour je fais l\'action 1');
             gameObject.disableInteractive();
+            self.CardAction(0);
+
         })
+
+        this.CardAction = (Action) => {
+            switch(Action) //Remplacer avec l'ID de la carte dans le future 
+            {
+                case 0 :  //deal damage 
+                    console.log("Enemy life : "+this.Enemy1.GetHealth());
+                    this.Enemy1.TakeDamage(this.MainHero.GetDamage());
+                    console.log("Enemy 1 take "+ this.MainHero.GetDamage()+" damage from hero");
+                    console.log("Enemy life : "+this.Enemy1.GetHealth());
+                    break;
+                case 1 :  //Take damage
+                    this.MainHero.TakeDamage(10); 
+                    break;
+                case 2 :  //Heal
+                    this.MainHero.Healing(30);
+                    break;
+                case 3 :  //Upgrade Defense
+
+                    break;
+                case 4 :  //Downgrade Defense
+                    break;
+                default :
+                    break;
+            }
+        }
 
         
         
@@ -101,11 +126,8 @@ export default class Game extends Phaser.Scene {
     }
     
     update() {
-        if (this.Action == 1)
-        {
-            this.Enemy1.TakeDamage(this.MainHero.GetDamage());
-            this.Action = 0;
-            console.log('Bonjour je fais l\'action 2');
-        }
+       
     }
+
+    
 }

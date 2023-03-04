@@ -7,7 +7,7 @@ export default class HealthBar {
         this.x = x;
         this.y = y;
         this.value = value;
-        this.maxLife =value;
+        this.maxLife = value;
 
         this.draw();
         scene.add.existing(this.bar);
@@ -24,7 +24,21 @@ export default class HealthBar {
 
         this.draw();
 
-        return (this.value === 0);
+        return this.value;
+    }
+
+    increase (amount)
+    {
+        this.value += amount;
+
+        if (this.value > this.maxLife)
+        {
+            this.value =this.maxLife;
+        }
+
+        this.draw();
+
+        return this.value;
     }
 
     draw ()
@@ -41,8 +55,11 @@ export default class HealthBar {
         this.bar.fillRect(this.x + 2, this.y + 2, 116, 20);
 
         this.bar.fillStyle(0x00ff00);
-        var coeff = Math.floor((this.value/this.maxLife) );
-        this.bar.fillRect(this.x + 2, this.y + 2, 116 * coeff, 20);
+        var coeff = this.value/this.maxLife;
+        console.log(this.value);
+        console.log(this.maxLife);
+        console.log(coeff);
+        this.bar.fillRect(this.x + 2, this.y + 2, Math.floor(116 * coeff), 20);
         
     }
 
