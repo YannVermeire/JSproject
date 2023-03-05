@@ -17,8 +17,10 @@ export default class Deck extends Phaser.Scene{
         let self=this;
         this.cardLimit=8;
         this.cardBank=[];
-        this.back=this.add.text(200,700, ['Back']).setFontSize(18).setFontFamily('Trebuchet MS').setColor('#00ffff').setInteractive();
 
+        this.back=this.add.text(200,700, ['Back']).setFontSize(18).setFontFamily('Trebuchet MS').setColor('#00ffff').setInteractive();
+        this.deckValidationText=this.add.text(400 , 700,'Error in saving deck',{fontSize : '18px', color : '#cf5e61'}).setOrigin(0.5,0.5)
+        this.deckValidationText.setVisible(false)
         this.deckZone=new Zone(this,200,500,150,300)
         this.interactiveDeckZone=self.deckZone.renderZone()
         this.deckZone.renderOutline(this.interactiveDeckZone)
@@ -108,7 +110,6 @@ export default class Deck extends Phaser.Scene{
             switch(dropZone.data.values.type)
             {
                 case 'deck':
-                    
                     if (gameObject.getData('owner').location==='bank' && self.interactiveDeckZone.getData('cards')<self.cardLimit)
                     {
                         //la carte viens de la banque et il reste de la place dans le deck alors on l'ajoute
@@ -133,13 +134,48 @@ export default class Deck extends Phaser.Scene{
                 default:
                     break;
             }
-            console.log(gameObject.getData('owner'))
         })
 
         this.back.on('pointerdown',()=>{
+            this.deckValidationText.setVisible(false)
+            //a changer
             localStorage.setItem('cardBank',JSON.stringify({cardBank:self.cardBank}));
-            self.scene.start('Character');
+
+            var deckPost={
+                default :false,
+                deck:[]
+            }
+            for (let key in self.cardBank)
+            {
+                if(this.cardBank[key].location==='deck')
+                {
+                    deckPost.deck.push(this.cardBank[key])
+                }
+            }
+            fetch("http://localhost:3000/updateDeck", {
+                                method: "POST",
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                  },
+                                body: JSON.stringify({username : 'titititi',deck : deckPost})
+                                }
+                            ).then(response=>response.json())
+                            .then(data=>{ 
+                                console.log(data);
+                                if (data.error!==null)
+                                {
+                                    this.deckValidationText.setVisible(true)
+                                }
+                                else
+                                {
+                                    self.scene.start('Character');
+                                }
+                            })
+                            .catch((error)=>{
+                                console.log("error : "+error.message)
+                            });
         })
+
         self.back.on('pointerover', ()=>{
             self.back.setColor('#ff69b4');
         })

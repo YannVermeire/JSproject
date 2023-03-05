@@ -26,8 +26,13 @@ app.post('/connectAsUser',jsonParser,(req,res)=>{
   connectAsUser(req.body.username,req.body.password).then((value)=>{
     res.status(200).send(JSON.stringify(value))
   })
-  
 });
+
+app.post('/updateDeck',jsonParser,(req,res)=>{
+  updateDeck(req.body.username,req.body.deck).then((value)=>{
+    res.status(200).send(JSON.stringify(value))
+  })
+})
 
 http.createServer(app).listen(port, host, () => {
   console.log(`Server is running on http://${host}:${port}`);
@@ -114,17 +119,19 @@ async function addUser(username,password)
 
 async function connectAsUser(username,password)
 {
+  
   var data={
     db : null,
     statement : null,
   }
   var resp={
-    row : null,
+    username : null,
+    deck : null,
   }
   var promisedDB = new Promise((resolve,reject)=>{
     var db = new sqlite3.Database('./database/users.db',sqlite3.OPEN_READWRITE, (err) => {
       if (err) {
-        console.error("open error code : "+err.errno+" ; msg : "+err.message);
+        console.log("open error code : "+err.errno+" ; msg : "+err.message);
         reject()
       }
       else
@@ -136,11 +143,11 @@ async function connectAsUser(username,password)
   });
   await promisedDB.then(_=>{
     return new Promise((resolve,reject)=>{
-      var statement=data.db.prepare("SELECT username,password FROM users where username=?;")
+      var statement=data.db.prepare("SELECT username,password,deck FROM users where username=?;")
       statement.get(username,(err,row)=>{
         if(err) 
         {
-          console.error("connect error code : "+err.errno+" ; msg : "+err.message);
+          console.log("connect error code : "+err.errno+" ; msg : "+err.message);
           reject()
         }
         else
@@ -155,7 +162,15 @@ async function connectAsUser(username,password)
               }
               else
               {
-                result?resp.row=row : console.log("no account with username :",username,"and password :",password)
+                if (result)
+                {
+                  resp.deck=row.deck
+                  resp.username=row.username
+                }
+                else
+                {
+                  console.log("no account with username :",username,"and password :",password)
+                }
                 resolve()
               }
           });
@@ -168,7 +183,7 @@ async function connectAsUser(username,password)
       data.statement.finalize((err)=>{
         if(err)
         {
-          console.error("finalize error code : "+err.errno+" ; msg : "+err.message);
+          console.log("finalize error code : "+err.errno+" ; msg : "+err.message);
           reject()
         }
         else
@@ -180,6 +195,67 @@ async function connectAsUser(username,password)
   }).then(_=>{
     data.db.close()
   }).catch(err=>{
+    console.log(err)
+  })
+  return resp
+}
+
+async function updateDeck(username,deck)
+{
+  var data={
+    db:null,
+    statement:null
+  }
+  var resp={
+    error :null
+  }
+  var promisedDB = new Promise((resolve,reject)=>{
+    var db = new sqlite3.Database('./database/users.db',sqlite3.OPEN_READWRITE, (err) => {
+      if (err) {
+        console.log("open error code : "+err.errno+" ; msg : "+err.message);
+        reject()
+      }
+      else
+      {
+        data.db=db
+        resolve()
+      }
+    });
+  });
+  await promisedDB.then(_=>{
+    return new Promise((resolve,reject)=>{
+      var statement=data.db.prepare("UPDATE users SET deck=json(?) WHERE username=(?)")
+      statement.run(JSON.stringify(deck),username,(err)=>{
+        if(err)
+        {
+          console.log("run error code : "+err.errno+" ; msg : "+err.message)
+          reject()
+        }
+        else
+        {
+          data.statement=statement
+          resolve()
+        }
+      })
+    })
+  }).then(_=>{
+    return new Promise((resolve,reject)=>{
+      data.statement.finalize((err)=>{
+        if(err)
+        {
+          console.log("finalize error code : "+err.errno+" ; msg : "+err.message);
+          reject()
+        }
+        else
+        {
+          resolve()
+        }
+      })
+    })
+  }).then(_=>{
+    data.db.close()
+  }).catch(err=>{
+    resp.error=err
     console.log(err)
   })
   return resp

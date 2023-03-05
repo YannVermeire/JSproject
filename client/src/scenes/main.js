@@ -53,7 +53,7 @@ export default class Main extends Phaser.Scene {
                             ).then(response=>response.json())
                             .then(data=>{ 
                                 console.log(data);
-                                if (data.row===null)
+                                if (data.username===null)
                                 {
                                     this.authenticationText.setVisible(true)
                                 }
