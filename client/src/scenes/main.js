@@ -57,6 +57,10 @@ export default class Main extends Phaser.Scene {
                                 {
                                     this.authenticationText.setVisible(true)
                                 }
+                                else
+                                {
+                                    this.scene.start('Character'); 
+                                }
                             })
                             .catch((error)=>{
                                 console.log("error : "+error.message)
