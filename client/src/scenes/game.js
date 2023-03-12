@@ -111,7 +111,6 @@ export default class Game extends Phaser.Scene {
                     this.MainHero.Healing(30);
                     break;
                 case 3 :  //Upgrade Defense
-
                     break;
                 case 4 :  //Downgrade Defense
                     break;

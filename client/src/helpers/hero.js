@@ -26,6 +26,17 @@ export default class Hero {
             let DamageReceive = (Damage - this.Defense);
             this.Health = this.HB.decrease(DamageReceive);
         }
+        else
+        {
+            if (this.Defense - 2 > 0)
+            {
+                this.Defense -=2;
+            }
+            else 
+            {
+                this.Defense = 0;
+            }
+        }
     }
     Healing(Heal)
     {
